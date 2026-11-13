@@ -7,8 +7,28 @@ import HeaderLink from "./HeaderLink.astro";
     <HeaderLink href="/">Home</HeaderLink>
     <HeaderLink href="/blog">Blog</HeaderLink>
     <HeaderLink href="/about">FAQ</HeaderLink>
+    <button type="button" class="theme-toggle" aria-label="Switch color theme">Theme</button>
   </nav>
 </header>
+<script>
+  function setupTheme() {
+    const button = document.querySelector<HTMLButtonElement>('.theme-toggle');
+    if (!button) return;
+    const update = () => {
+      const dark = document.documentElement.dataset.theme === 'dark';
+      button.textContent = dark ? '☀ Light' : '☾ Dark';
+      button.setAttribute('aria-label', dark ? 'Switch to light mode' : 'Switch to dark mode');
+    };
+    update();
+    button.addEventListener('click', () => {
+      const theme = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';
+      document.documentElement.dataset.theme = theme;
+      try { localStorage.setItem('theme', theme); } catch {}
+      update();
+    });
+  }
+  document.addEventListener('astro:page-load', setupTheme);
+</script>
 <style>
   header {
     padding: 1rem 0;
@@ -20,4 +40,16 @@ import HeaderLink from "./HeaderLink.astro";
     margin-top: 2em;
     gap: 1rem;
   }
+  .theme-toggle {
+    margin-left: auto;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    padding: .4rem .75rem;
+    background: var(--control-bg);
+    color: var(--text);
+    font: inherit;
+    font-size: .875rem;
+    cursor: pointer;
+  }
+  .theme-toggle:focus-visible { outline: 2px solid var(--link); outline-offset: 3px; }
 </style>

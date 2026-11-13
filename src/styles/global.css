@@ -11,7 +11,25 @@
 /* Layout styles */
 
 :root {
+	color-scheme: light;
+	--background: #fff;
+	--text: #333;
 	--paragraph-color: #4b5563;
+	--muted: #666;
+	--link: #005fc7;
+	--border: #d9dee5;
+	--control-bg: #f5f7fa;
+}
+
+:root[data-theme="dark"] {
+	color-scheme: dark;
+	--background: #151a22;
+	--text: #e7ebf1;
+	--paragraph-color: #bcc6d3;
+	--muted: #aab7c7;
+	--link: #8bbcff;
+	--border: #3d4858;
+	--control-bg: #242d3a;
 }
 
 html {
@@ -22,8 +40,8 @@ body {
 	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
 	font-size: 1rem;
 	line-height: 1.5;
-	color: #333;
-	background-color: #fff;
+	color: var(--text);
+	background-color: var(--background);
 }
 
 img {
@@ -32,14 +50,14 @@ img {
 }
 
 a {
-	 color: #333;
+	 color: var(--text);
 	text-decoration: none; 
 	
 	transition: all 0.1s ease-in-out;
 }
 
 a:hover {
-	color: #b0b0b0;
+	color: var(--link);
 	text-decoration: none;
 
 }
