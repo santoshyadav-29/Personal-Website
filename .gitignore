@@ -12,14 +12,19 @@ yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 
-
-# environment variables
+# environment variables / secrets
 .env
 .env.production
+.env.local
+.env*.local
 
-# macOS-specific files
+# macOS
 .DS_Store
 
-node_modules
-.env
-.env.local
+# Convex local backend state
+.convex/
+
+# editor
+.vscode/*
+!.vscode/extensions.json
+!.vscode/launch.json

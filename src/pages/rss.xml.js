@@ -1,16 +1,33 @@
-import rss from '@astrojs/rss';
-import { getCollection } from 'astro:content';
-import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
+import rss from "@astrojs/rss";
+import { ConvexHttpClient } from "convex/browser";
+import { anyApi } from "convex/server";
+import { SITE_TITLE, SITE_DESCRIPTION } from "../consts";
+
+export const prerender = false;
 
 export async function GET(context) {
-	const posts = await getCollection('blog');
-	return rss({
-		title: SITE_TITLE,
-		description: SITE_DESCRIPTION,
-		site: context.site,
-		items: posts.map((post) => ({
-			...post.data,
-			link: `/blog/${post.id}/`,
-		})),
-	});
+  const url = import.meta.env.PUBLIC_CONVEX_URL || process.env.CONVEX_URL;
+  let items = [];
+
+  if (url) {
+    try {
+      const client = new ConvexHttpClient(url);
+      const posts = await client.query(anyApi.posts.listPublished, { limit: 50 });
+      items = posts.map((post) => ({
+        title: post.title,
+        description: post.description,
+        pubDate: new Date(post.pubDate),
+        link: `/blog/${post.slug}/`,
+      }));
+    } catch (err) {
+      console.error("RSS Convex fetch failed", err);
+    }
+  }
+
+  return rss({
+    title: SITE_TITLE,
+    description: SITE_DESCRIPTION,
+    site: context.site,
+    items,
+  });
 }

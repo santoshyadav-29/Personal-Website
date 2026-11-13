@@ -1,41 +1,19 @@
 ---
-import { getCollection } from "astro:content";
-import FormattedDate from "../../components/FormattedDate.astro";
 import Layout from "../../layouts/Layout.astro";
-
-const posts = (await getCollection("blog")).sort(
-  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
-);
+import BlogListApp from "../../components/react/BlogListApp";
 ---
 
-<!-- <img width={720} height={360} src={post.data.heroImage} alt="" /> -->
 <Layout title="Blog" description="Blog posts by Santosh Yadav">
   <main class="blog-page">
     <h1>Experiences, lessons & more 📖</h1>
-	<hr>
-    <section>
-      <ul>
-        {
-          posts.map((post) => (
-            <li>
-              <FormattedDate date={post.data.pubDate} />
-
-              <a href={`/blog/${post.id}/`}>
-                <p class="title">{post.data.title}</p>
-              </a>
-            </li>
-          ))
-        }
-      </ul>
-    </section>
+    <hr />
+    <BlogListApp client:load />
   </main>
 </Layout>
 
 <style>
   .blog-page {
-    
     margin-top: 4rem;
-    
   }
 
   .blog-page h1 {
@@ -44,25 +22,4 @@ const posts = (await getCollection("blog")).sort(
     line-height: 1.5;
     margin-bottom: 2rem;
   }
-
-  .blog-page ul {
-    display: grid;
-    gap: 1em;
-  }
-
-  .blog-page li {
-    display: grid;
-    grid-template-columns: 1fr 3fr;
-	align-items: center;
-
-  }
-
-  .blog-page a{
-	border-bottom: 1px solid var(--border);
-	display: block;
-	padding: 1rem 0;
-  }
-
-
-  
 </style>
