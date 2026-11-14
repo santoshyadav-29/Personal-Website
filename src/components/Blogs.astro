@@ -2,7 +2,7 @@
 import { getCollection } from "astro:content";
 const posts = await getCollection("blog");
 // filter only three
-const blogs = posts.slice(0, 3);
+const blogs = posts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()).slice(0, 3);
 
 ---
 
@@ -14,7 +14,7 @@ const blogs = posts.slice(0, 3);
           blogs.map((item) => (
               
           <p>
-                  <a href={`/blog/${item.slug}/`}>
+                  <a href={`/blog/${item.id}/`}>
                       {item.data.title}
                   </a>
                  

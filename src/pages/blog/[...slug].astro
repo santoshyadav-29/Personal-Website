@@ -1,20 +1,15 @@
 ---
-import { type CollectionEntry, getCollection } from 'astro:content';
-import BlogPost from '../../layouts/BlogPost.astro';
+import Layout from "../../layouts/Layout.astro";
+import BlogPostApp from "../../components/react/BlogPostApp";
 
-export async function getStaticPaths() {
-	const posts = await getCollection('blog');
-	return posts.map((post) => ({
-		params: { slug: post.slug },
-		props: post,
-	}));
-}
-type Props = CollectionEntry<'blog'>;
+export const prerender = false;
 
-const post = Astro.props;
-const { Content } = await post.render();
+const slugParam = Astro.params.slug;
+const slug = Array.isArray(slugParam)
+  ? slugParam.join("/")
+  : (slugParam ?? "").replace(/\/$/, "");
 ---
 
-<BlogPost {...post.data}>
-	<Content />
-</BlogPost>
+<Layout title="Blog" description="Blog post by Santosh Yadav">
+  <BlogPostApp client:load slug={slug} />
+</Layout>

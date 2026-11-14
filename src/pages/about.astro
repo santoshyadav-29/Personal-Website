@@ -1,9 +1,17 @@
 ---
-import Layout from "../layouts/Layout.astro"
+import Layout from "../layouts/Layout.astro";
+import FaqSection from "../components/react/FaqSection";
 ---
 
-<Layout title="About Me" description="This is about me page!">
-  <h1>
-    Faq
-  </h1>
+<Layout title="FAQ" description="Frequently asked questions">
+  <main class="faq-page">
+    <FaqSection client:load />
+  </main>
 </Layout>
+
+<style>
+  .faq-page {
+    margin-top: 3rem;
+    margin-bottom: 3rem;
+  }
+</style>

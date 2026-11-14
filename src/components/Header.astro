@@ -1,23 +1,184 @@
 ---
 import HeaderLink from "./HeaderLink.astro";
+import HeaderAuth from "./react/HeaderAuth";
 ---
 
 <header>
-  <nav>
+  <div class="header-bar">
+    <a class="brand" href="/">Santosh Yadav</a>
+    <button
+      type="button"
+      class="nav-toggle"
+      aria-label="Open menu"
+      aria-expanded="false"
+      aria-controls="site-nav"
+    >
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+  </div>
+  <nav id="site-nav" class="site-nav" hidden>
     <HeaderLink href="/">Home</HeaderLink>
     <HeaderLink href="/blog">Blog</HeaderLink>
     <HeaderLink href="/about">FAQ</HeaderLink>
+    <HeaderAuth client:load />
+    <button type="button" class="theme-toggle" aria-label="Switch color theme">Theme</button>
   </nav>
 </header>
+
+<script>
+  function setupHeader() {
+    const toggle = document.querySelector<HTMLButtonElement>(".nav-toggle");
+    const nav = document.querySelector<HTMLElement>("#site-nav");
+    if (toggle && nav) {
+      const sync = () => {
+        const desktop = window.matchMedia("(min-width: 768px)").matches;
+        if (desktop) {
+          nav.hidden = false;
+          toggle.setAttribute("aria-expanded", "false");
+          toggle.classList.remove("is-open");
+        } else if (!toggle.classList.contains("is-open")) {
+          nav.hidden = true;
+        }
+      };
+      sync();
+      window.addEventListener("resize", sync);
+      toggle.onclick = () => {
+        const open = toggle.getAttribute("aria-expanded") === "true";
+        toggle.setAttribute("aria-expanded", String(!open));
+        toggle.classList.toggle("is-open", !open);
+        nav.hidden = open;
+      };
+    }
+
+    const button = document.querySelector<HTMLButtonElement>(".theme-toggle");
+    if (!button) return;
+    const update = () => {
+      const dark = document.documentElement.dataset.theme === "dark";
+      button.textContent = dark ? "☀ Light" : "☾ Dark";
+      button.setAttribute(
+        "aria-label",
+        dark ? "Switch to light mode" : "Switch to dark mode",
+      );
+    };
+    update();
+    button.onclick = () => {
+      const theme =
+        document.documentElement.dataset.theme === "dark" ? "light" : "dark";
+      document.documentElement.dataset.theme = theme;
+      try {
+        localStorage.setItem("theme", theme);
+      } catch {}
+      update();
+    };
+  }
+  document.addEventListener("astro:page-load", setupHeader);
+</script>
+
 <style>
   header {
-    padding: 1rem 0;
+    padding: 1rem 0 0;
   }
 
-  nav {
+  .header-bar {
     display: flex;
     align-items: center;
-    margin-top: 2em;
+    justify-content: space-between;
     gap: 1rem;
+    margin-top: 1.25rem;
+  }
+
+  .brand {
+    font-weight: 600;
+    font-size: 1.05rem;
+    text-decoration: none;
+    color: var(--text);
+  }
+
+  .nav-toggle {
+    display: inline-flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    width: 2.5rem;
+    height: 2.5rem;
+    border: 1px solid var(--border);
+    border-radius: 0.5rem;
+    background: var(--control-bg);
+    cursor: pointer;
+    padding: 0.55rem;
+  }
+
+  .nav-toggle span {
+    display: block;
+    height: 2px;
+    width: 100%;
+    background: var(--text);
+    transition: transform 0.2s ease, opacity 0.2s ease;
+  }
+
+  .nav-toggle.is-open span:nth-child(1) {
+    transform: translateY(7px) rotate(45deg);
+  }
+  .nav-toggle.is-open span:nth-child(2) {
+    opacity: 0;
+  }
+  .nav-toggle.is-open span:nth-child(3) {
+    transform: translateY(-7px) rotate(-45deg);
+  }
+
+  .site-nav {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.75rem;
+    margin-top: 1rem;
+    padding: 1rem 0;
+    border-top: 1px solid var(--border);
+  }
+
+  .site-nav[hidden] {
+    display: none !important;
+  }
+
+  .theme-toggle {
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    padding: 0.4rem 0.75rem;
+    background: var(--control-bg);
+    color: var(--text);
+    font: inherit;
+    font-size: 0.875rem;
+    cursor: pointer;
+    width: fit-content;
+  }
+
+  .theme-toggle:focus-visible,
+  .nav-toggle:focus-visible {
+    outline: 2px solid var(--link);
+    outline-offset: 3px;
+  }
+
+  @media (min-width: 768px) {
+    .header-bar {
+      display: none;
+    }
+    .nav-toggle {
+      display: none;
+    }
+    .site-nav {
+      flex-direction: row;
+      align-items: center;
+      margin-top: 2em;
+      padding: 0;
+      border-top: 0;
+    }
+    .site-nav[hidden] {
+      display: flex !important;
+    }
+    .theme-toggle {
+      margin-left: auto;
+    }
   }
 </style>

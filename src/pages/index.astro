@@ -1,56 +1,27 @@
 ---
-import Introduction from "../components/Introduction.astro";
 import { SITE_TITLE, SITE_DESCRIPTION } from "../consts";
 import Layout from "../layouts/Layout.astro";
-import Education from "../components/Education.astro";
-import Aboutme from "../components/Aboutme.astro";
-import Project from '../components/Project.astro';
-import Blogs from '../components/Blogs.astro';
-
+import HomeSections from "../components/react/HomeSections";
 ---
 
 <Layout title={SITE_TITLE} description={SITE_DESCRIPTION}>
   <main>
-    <Introduction />
-    <hr/>
-	<Education />
-  <hr/>
-  <Project/>
-  <hr/>
- <Blogs/>
-  <hr/>
-  <Aboutme/>
-
-  
+    <HomeSections client:load />
   </main>
 </Layout>
+
 <style is:global>
-
-  a{
-    text-decoration:underline;
-    color: rgba(0, 115, 255, 0.796);
-
+  a {
+    text-decoration: underline;
+    color: var(--link);
   }
-  a:hover{
-    color: rgba(8, 92, 194, 0.796);
-    text-decoration:none;
+  a:hover {
+    color: var(--text);
+    text-decoration: none;
   }
-
   .more-about {
     display: flex;
     flex-direction: column;
-
     gap: 1rem;
-  }
-
-  
-</style>
-
-<style>
-  hr{
-    margin: -1.1em 0 1em 0;
-   
-    
-
   }
 </style>

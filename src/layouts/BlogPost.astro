@@ -1,81 +1,11 @@
 ---
-import type { CollectionEntry } from "astro:content";
-import BaseHead from "../components/BaseHead.astro";
-import Header from "../components/Header.astro";
-import Footer from "../components/Footer.astro";
-import FormattedDate from "../components/FormattedDate.astro";
-import "../styles/global.css";
-
-type Props = CollectionEntry<"blog">["data"];
-
-const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
+/**
+ * Legacy layout kept for compatibility. Blog posts now render via React + Convex.
+ */
+import Layout from "./Layout.astro";
+const { title, description } = Astro.props;
 ---
 
-<!doctype html>
-<html lang="en">
-  <head>
-    <BaseHead title={title} description={description} />
-    <style is:global>
-      body {
-        padding-left: 1em;
-      }
-
-      .blog-head {
-        margin-top: 2em;
-        margin-bottom: 2em;
-      }
-      .blog-head h1 {
-      }
-      .blog-date {
-        font-size: 0.9em;
-        color: #666;
-      }
-
-      .blog-body {
-        margin-top: 2em;
-        margin-bottom: 2em;
-        line-height: 1.75em;
-        font-size: 1.12rem;
-      }
-      .blog-body blockquote {
-		font-family: cursive;
-		
-      }
-      .blog-body strong {
-        font-weight: 500;
-      }
-
-	  .blog-body ::selection{
-		background: rgb(0, 255, 72);
-	  }
-    </style>
-  </head>
-
-  <body>
-    <div class="content-wrapper">
-      <Header />
-      <main>
-        <div class="blog-head">
-          <h1>{title}</h1>
-          {heroImage && <img src={heroImage} alt={title} />}
-          <p class="blog-date">
-            <FormattedDate date={pubDate} />
-            {
-              updatedDate && (
-                <>
-                  {" "}
-                  (Updated: <FormattedDate date={updatedDate} />)
-                </>
-              )
-            }
-          </p>
-        
-        </div>
-        <div class="blog-body">
-          <slot />
-        </div>
-      </main>
-      <Footer />
-    </div>
-  </body>
-</html>
+<Layout title={title} description={description}>
+  <slot />
+</Layout>

@@ -1,0 +1,17 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import AdminApp from "../../components/react/admin/AdminApp";
+---
+
+<Layout title="Personal stuff" description="Private admin area">
+  <main class="personal-stuff-page">
+    <AdminApp client:load />
+  </main>
+</Layout>
+
+<style>
+  .personal-stuff-page {
+    margin-top: 2rem;
+    margin-bottom: 3rem;
+  }
+</style>
