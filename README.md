@@ -81,6 +81,8 @@ On the **hosting** side for the Astro app, set:
 | `PUBLIC_CONVEX_SITE_URL` | HTTP Actions URL (`https://….convex.site`) |
 | `PUBLIC_SITE_URL` | Canonical site URL |
 
+Astro uses `@astrojs/vercel` automatically when `VERCEL=1` (Vercel builds). Locally it keeps `@astrojs/node` in standalone mode for `npm run build` / `astro preview`.
+
 Seed production once:
 
 ```bash

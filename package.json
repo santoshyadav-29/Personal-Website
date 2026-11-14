@@ -21,6 +21,7 @@
     "@astrojs/react": "^7.1.1",
     "@astrojs/rss": "^4.0.19",
     "@astrojs/sitemap": "^3.7.4",
+    "@astrojs/vercel": "^11.0.22",
     "@auth/core": "^0.41.3",
     "@convex-dev/auth": "^0.0.96",
     "astro": "^7.4.2",

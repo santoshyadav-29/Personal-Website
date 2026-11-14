@@ -28,3 +28,6 @@ pnpm-debug.log*
 .vscode/*
 !.vscode/extensions.json
 !.vscode/launch.json
+
+# Vercel adapter local build output
+.vercel/
